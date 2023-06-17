@@ -16,6 +16,8 @@ import java.util.List;
 public class ConsultarAlumnoPanel {
     private JPanel panel;
     private JComboBox<String> cmbStatus;
+    private JComboBox<String> cmbExportar;
+    private JComboBox<String> cmbAgregar;
     private JComboBox<String> cmbEspecialidad;
     private JTable tblAlumnos;
     private Alumno alumnoSeleccionado = null;
@@ -29,6 +31,20 @@ public class ConsultarAlumnoPanel {
         JPanel panelFiltros = new JPanel();
         panelFiltros.setLayout(new FlowLayout());
 
+        //Crear panel opcionesAlumno
+        JPanel panelOpcionesAl = new JPanel();
+        panelOpcionesAl.setLayout(new FlowLayout());
+
+        //Crear panel Opciones
+        JPanel panelOpciones = new JPanel();
+        panelOpciones.setLayout(new FlowLayout());
+
+        //__ Crear subPanel opciones
+        JPanel subPanelOpciones = new JPanel();
+        subPanelOpciones.setLayout(new BoxLayout(subPanelOpciones, BoxLayout.Y_AXIS));
+        panelOpciones.add(subPanelOpciones);
+
+
         // Agregar filtro de Status
         JLabel lblStatus = new JLabel("Status:");
         cmbStatus = new JComboBox<>(new String[]{"Todos", "Interesado", "Nuevo Ingreso"});
@@ -41,21 +57,44 @@ public class ConsultarAlumnoPanel {
         panelFiltros.add(lblEspecialidad);
         panelFiltros.add(cmbEspecialidad);
 
+
         // Agregar botón de búsqueda
         JButton btnBuscar = new JButton("Buscar");
         panelFiltros.add(btnBuscar);
 
-        // Agregar botones de exportación
-        JButton btnExportarPagos = new JButton("Exportar Pagos");
-        JButton btnExportarAlumnos = new JButton("Exportar Alumnos");
-        panelFiltros.add(btnExportarPagos);
-        panelFiltros.add(btnExportarAlumnos);
+        // Agregar opciones de exportación
+        JLabel lblExportar = new JLabel("Exportar:");
+        JButton btnExportar = new JButton("Exportar");
 
-        // Agregar botones de agregar documento y agregar pago
-        JButton btnAgregarDocumento = new JButton("Agregar Documento");
-        JButton btnAgregarPago = new JButton("Agregar Pago");
-        panelFiltros.add(btnAgregarDocumento);
-        panelFiltros.add(btnAgregarPago);
+        // Agregar combobox Exportar
+        cmbExportar = new JComboBox<>(new String[]{"Alumnos","Pagos"});
+        subPanelOpciones.add(lblExportar);
+        subPanelOpciones.add(cmbExportar);
+        subPanelOpciones.add(btnExportar);
+
+        //Espacio vertical entre los botones del subPanel
+        subPanelOpciones.add(Box.createVerticalStrut(10));
+
+        // Agregar opciones de agregar
+        JLabel lblAgregar = new JLabel("Agregar:");
+        JButton btnAgregar = new JButton("Agregar");
+
+        // Agregar combobox Agregar
+        cmbAgregar = new JComboBox<>(new String[]{"Documento","Pago"});
+        subPanelOpciones.add(lblAgregar);
+        subPanelOpciones.add(cmbAgregar);
+        subPanelOpciones.add(btnAgregar);
+
+
+        // Agregar boton de eliminar alumno
+        JButton btnEliminarAlumno = new JButton("Elimnar alumno");
+        panelOpcionesAl.add(btnEliminarAlumno);
+
+        // Agregar panel de opcionesAL al panel principal
+        panel.add(panelOpcionesAl, BorderLayout.SOUTH);
+
+        // Agregar panel de opciones al panel principal
+        panel.add(panelOpciones, BorderLayout.EAST);
 
         // Agregar panel de filtros al panel principal
         panel.add(panelFiltros, BorderLayout.NORTH);
@@ -103,55 +142,59 @@ public class ConsultarAlumnoPanel {
         });
 
         // Configurar acciones de los botones de exportación
-        btnExportarPagos.addActionListener(e -> {
-            DatabaseToExcelExporter databaseToExcelExporter = new DatabaseToExcelExporter();
-            databaseToExcelExporter.exportExcelPagos();
-            JOptionPane.showMessageDialog(null, "Datos exportados correctamente");
-        });
+        btnExportar.addActionListener(e -> {
+            String exportar = cmbExportar.getSelectedItem().toString();
 
-        btnExportarAlumnos.addActionListener(e -> {
-            DatabaseToExcelExporter databaseToExcelExporter = new DatabaseToExcelExporter();
-            databaseToExcelExporter.exportExcelAlumnos();
-            JOptionPane.showMessageDialog(null, "Datos exportados correctamente");
-        });
-
-        // Configurar acción del botón Agregar Documento
-        btnAgregarDocumento.addActionListener(e -> {
-            int selectedRow = tblAlumnos.getSelectedRow();
-
-            if (selectedRow != -1) {
-                int selectedId = (int) tblAlumnos.getValueAt(selectedRow, 0);
-                alumnoSeleccionado = alumnoDao.obtenerAlumnoPorId(selectedId);
-
-                if (alumnoSeleccionado != null) {
-                    JOptionPane.showMessageDialog(panel, alumnoSeleccionado.getNombreCompleto() + " seleccionado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                    AddDocument addDocument = new AddDocument(alumnoSeleccionado);
-                    addDocument.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(panel, "No se pudo obtener el alumno seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(panel, "Debe seleccionar un alumno de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+            if (exportar.equals("Pagos")){
+                DatabaseToExcelExporter databaseToExcelExporter = new DatabaseToExcelExporter();
+                databaseToExcelExporter.exportExcelPagos();
+                JOptionPane.showMessageDialog(null, "Datos exportados correctamente");
+            }else if(exportar.equals("Alumnos")){
+                DatabaseToExcelExporter databaseToExcelExporter = new DatabaseToExcelExporter();
+                databaseToExcelExporter.exportExcelAlumnos();
+                JOptionPane.showMessageDialog(null, "Datos exportados correctamente");
+            }else{
+                JOptionPane.showMessageDialog(panel, "Opción no válida.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         });
 
-        //Configurar acción del botón Agregar Pago
-        btnAgregarPago.addActionListener(e -> {
+
+        // Configurar acción del botón Agregar Documento
+        btnAgregar.addActionListener(e -> {
+            String agregar = cmbAgregar.getSelectedItem().toString();
             int selectedRow = tblAlumnos.getSelectedRow();
 
-            if (selectedRow != -1) {
-                int selectedId = (int) tblAlumnos.getValueAt(selectedRow, 0);
-                alumnoSeleccionado = alumnoDao.obtenerAlumnoPorId(selectedId);
+            if (agregar.equals("Documento")){
+                if (selectedRow != -1) {
+                    int selectedId = (int) tblAlumnos.getValueAt(selectedRow, 0);
+                    alumnoSeleccionado = alumnoDao.obtenerAlumnoPorId(selectedId);
 
-                if (alumnoSeleccionado != null) {
-                    JOptionPane.showMessageDialog(panel, alumnoSeleccionado.getNombreCompleto() + " seleccionado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                    AddPagoAl addPagoAl = new AddPagoAl(alumnoSeleccionado);
-                    addPagoAl.setVisible(true);
+                    if (alumnoSeleccionado != null) {
+                        JOptionPane.showMessageDialog(panel, alumnoSeleccionado.getNombreCompleto() + " seleccionado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                        AddDocument addDocument = new AddDocument(alumnoSeleccionado);
+                        addDocument.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(panel, "No se pudo obtener el alumno seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(panel, "No se pudo obtener el alumno seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, "Debe seleccionar un alumno de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(panel, "Debe seleccionar un alumno de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+            }else if(agregar.equals("Pago")){
+                if (selectedRow != -1) {
+                    int selectedId = (int) tblAlumnos.getValueAt(selectedRow, 0);
+                    alumnoSeleccionado = alumnoDao.obtenerAlumnoPorId(selectedId);
+
+                    if (alumnoSeleccionado != null) {
+                        JOptionPane.showMessageDialog(panel, alumnoSeleccionado.getNombreCompleto() + " seleccionado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                        AddPagoAl addPagoAl = new AddPagoAl(alumnoSeleccionado);
+                        addPagoAl.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(panel, "No se pudo obtener el alumno seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(panel, "Debe seleccionar un alumno de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 

@@ -45,7 +45,7 @@ public class DocAlumnoDao {
 
             int idAlumno = alumno.getId();
             for (int i = 0; i < rutasDocumentos.size(); i++) {
-                String nombreDoc = "NombreDocumento" + (i + 1);
+                String nombreDoc = "Documento" + (i + 1);
                 String rutaDoc = rutasDocumentos.get(i);
                 boolean existeDoc = new File(rutaDoc).exists();
                 int numDoc = i + 1;
