@@ -1,6 +1,7 @@
 package org.ge.br.view.Alumno;
 
 
+import org.ge.br.config.NonEditableCellEditor;
 import org.ge.br.dao.AlumnoDao;
 import org.ge.br.export.DatabaseToExcelExporter;
 import org.ge.br.model.Alumno;
@@ -241,7 +242,16 @@ public class ConsultarAlumnoPanel {
 
         for (int i = 0; i < tblAlumnos.getColumnCount(); i++) {
             tblAlumnos.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+
+            // Asignar el TableCellEditor personalizado
+            tblAlumnos.getColumnModel().getColumn(i).setCellEditor(new NonEditableCellEditor());
         }
+
+        for (int i = 0; i < tblAlumnos.getColumnCount(); i++) {
+            tblAlumnos.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+
 
         // Configurar la selección de filas para permitir la selección de un solo alumno a la vez
         tblAlumnos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
