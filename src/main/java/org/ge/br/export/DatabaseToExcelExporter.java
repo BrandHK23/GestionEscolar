@@ -5,12 +5,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.*;
 
 public class DatabaseToExcelExporter {
-    String excelFilePath = "/home/brandon/Excel_Path/Pagos_AlumnosV21.xlsx";
-    String excelFIlePath2 = "/home/brandon/Excel_Path/Datos_AlumnosV21.xlsx";
+    String fileNamePagos = "Pagos.xlsx";
+    String fileNameAlumnos = "Alumnos.xlsx";
+    String excelFilePagos = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "FilePath";
+    String excelFileAlumnos = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "FilePath";
 
     public Connection conectar() {
         String baseDeDatos = "EscuelaOdontologia_V2";
@@ -69,10 +72,30 @@ public class DatabaseToExcelExporter {
                 sheet.autoSizeColumn(i);
             }
 
-            try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
+            // Verificar si la carpeta existe, de lo contrario crearla
+            File carpeta = new File(excelFilePagos);
+            if(!carpeta.exists()){
+                carpeta.mkdirs();
+            }
+
+            // Verificar si el archivo existe, de ser así, generar una versión nueva numerada
+            int version = 1;
+            String newFileName = fileNamePagos;
+            File archivo = new File(excelFilePagos + File.separator + newFileName);
+            while (archivo.exists()){
+                // Generar nuevo nombre de archivo añadiendo la versión
+                version++;
+                newFileName = String.format("%s (%d).xlsx", fileNamePagos.substring(0, fileNamePagos.lastIndexOf('.')), version);
+                archivo = new File(excelFilePagos + File.separator + newFileName);
+            }
+
+            // Crear el archivo en la ruta especificada
+            try (FileOutputStream outputStream = new FileOutputStream(excelFilePagos + File.separator + newFileName)) {
                 workbook.write(outputStream);
             }
-            System.out.println("Datos exportados correctamente a Excel.");
+
+            System.out.println("Pagos.xlsx exportados correctamente a Excel en el archivo: " + newFileName);
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,10 +137,29 @@ public class DatabaseToExcelExporter {
                 sheet.autoSizeColumn(i);
             }
 
-            try (FileOutputStream outputStream = new FileOutputStream(excelFIlePath2)) {
+            // Verificar si la carpeta existe, de lo contrario crearla
+            File carpeta = new File(excelFilePagos);
+            if(!carpeta.exists()){
+                carpeta.mkdirs();
+            }
+
+            // Verificar si el archivo existe, de ser así, generar una versión nueva numerada
+            int version = 1;
+            String newFileName = fileNameAlumnos;
+            File archivo = new File(excelFileAlumnos + File.separator + newFileName);
+            while (archivo.exists()){
+                // Generar nuevo nombre de archivo añadiendo la versión
+                version++;
+                newFileName = String.format("%s (%d).xlsx", fileNameAlumnos.substring(0, fileNameAlumnos.lastIndexOf('.')), version);
+                archivo = new File(excelFileAlumnos + File.separator + newFileName);
+            }
+
+            // Crear el archivo en la ruta especificada
+            try (FileOutputStream outputStream = new FileOutputStream(excelFileAlumnos + File.separator + newFileName)) {
                 workbook.write(outputStream);
             }
-            System.out.println("Datos exportados correctamente a Excel.");
+
+            System.out.println("Alumnos.xlsx exportados correctamente a Excel en el archivo: " + newFileName);
 
         } catch (Exception e) {
             e.printStackTrace();
