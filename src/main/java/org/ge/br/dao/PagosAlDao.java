@@ -8,9 +8,9 @@ import java.util.List;
 
 public class PagosAlDao {
     public Connection conectar() {
-        String baseDeDatos = "EscuelaOdontologia_V21";
+        String baseDeDatos = "EscuelaOdontologia_V2";
         String usuario = "root";
-        String password = "2301";
+        String password = "1234";
         String host = "Localhost";
         String puerto = "3306";
         String drive = "com.mysql.cj.jdbc.Driver";
