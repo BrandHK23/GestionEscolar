@@ -13,9 +13,9 @@ public class DatabaseToExcelExporter {
     String excelFIlePath2 = "/home/brandon/Excel_Path/Datos_AlumnosV21.xlsx";
 
     public Connection conectar() {
-        String baseDeDatos = "EscuelaOdontologia_V21";
+        String baseDeDatos = "EscuelaOdontologia_V2";
         String usuario = "root";
-        String password = "2301";
+        String password = "1234";
         String host = "localhost";
         String puerto = "3306";
         String driver = "com.mysql.cj.jdbc.Driver";
