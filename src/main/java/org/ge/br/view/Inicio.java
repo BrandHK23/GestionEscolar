@@ -5,6 +5,7 @@ import org.ge.br.view.Alumno.AlumnoOptionsForm;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 public class Inicio extends JFrame {
     private JButton btnAlumnos, btnProfesores, btnPagos, btnCalendarios;
     public Inicio() {
@@ -15,7 +16,24 @@ public class Inicio extends JFrame {
     setLayout(null);
     setLocationRelativeTo(null); // Centrar la ventana en la pantalla
 
-    // Crear los botones de opciones
+    // Crear el JMenuBar
+    JMenuBar menuBar = new JMenuBar();
+    setJMenuBar(menuBar);
+
+    // Crear el menú "Opciones"
+    JMenu menuOpciones = new JMenu("Opciones");
+    menuBar.add(menuOpciones);
+
+    // Crear el submenú "Configuración"
+    JMenu submenuConfiguracion = new JMenu("Configuración");
+    menuOpciones.add(submenuConfiguracion);
+
+    // Crear la opción de menú "Alumnos"
+    JMenuItem menuItemAlumnos = new JMenuItem("Alumnos");
+    submenuConfiguracion.add(menuItemAlumnos);
+
+
+        // Crear los botones de opciones
     btnAlumnos = new JButton("Alumnos");
     btnAlumnos.setBounds(125, 40, 150, 30);
     add(btnAlumnos);
@@ -32,7 +50,8 @@ public class Inicio extends JFrame {
     btnCalendarios.setBounds(125, 190, 150, 30);
     add(btnCalendarios);
 
-    // Agregar ActionListener a los botones de opciones
+
+        // Agregar ActionListener a los botones de opciones
     btnAlumnos.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -62,6 +81,16 @@ public class Inicio extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             JOptionPane.showMessageDialog(Inicio.this, "Opción Calendarios seleccionada");
+        }
+    });
+
+
+    // Agregar ActionListener a la opción de menú "Alumnos"
+    menuItemAlumnos.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(Inicio.this, "Opción Alumnos seleccionada");
+            // Agrega aquí el código para la configuración de alumnos sin abrir la ventana Alumnos
         }
     });
 }
