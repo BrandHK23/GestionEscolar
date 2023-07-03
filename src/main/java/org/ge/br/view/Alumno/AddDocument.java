@@ -63,13 +63,6 @@ public class AddDocument extends JFrame {
 
         // Crear botón "Guardar"
         JButton btnGuardar = new JButton("Guardar");
-        JButton btnVerificar = new JButton("Verificar");
-        btnVerificar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
 
         // Configurar acción del botón "Guardar"
         btnGuardar.addActionListener(new ActionListener() {
@@ -97,7 +90,6 @@ public class AddDocument extends JFrame {
         // Crear panel para los botones
         JPanel panelBotones = new JPanel();
         panelBotones.add(btnGuardar);
-        panelBotones.add(btnVerificar);
 
         // Crear panel principal y agregar los paneles anteriores con un margen de 10 píxeles
         JPanel panelPrincipal = new JPanel(new BorderLayout());

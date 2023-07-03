@@ -54,6 +54,37 @@ public class AlumnoDao {
         }
     }
 
+    public void eliminarAlumno(int idAlumno) {
+        try {
+            Connection conexion = conectar();
+
+            // Eliminar los registros de PagosAl asociados al alumno
+            String sqlEliminarPagos = "DELETE FROM PagosAl WHERE id_alumno = ?";
+            PreparedStatement statementEliminarPagos = conexion.prepareStatement(sqlEliminarPagos);
+            statementEliminarPagos.setInt(1, idAlumno);
+            statementEliminarPagos.executeUpdate();
+            statementEliminarPagos.close();
+
+            // Eliminar los registros de DocAlumno asociados al alumno
+            String sqlEliminarDocumentos = "DELETE FROM DocAlumno WHERE id_alumno = ?";
+            PreparedStatement statementEliminarDocumentos = conexion.prepareStatement(sqlEliminarDocumentos);
+            statementEliminarDocumentos.setInt(1, idAlumno);
+            statementEliminarDocumentos.executeUpdate();
+            statementEliminarDocumentos.close();
+
+            // Eliminar el registro del alumno
+            String sqlEliminarAlumno = "DELETE FROM Alumnos WHERE id_alumno = ?";
+            PreparedStatement statementEliminarAlumno = conexion.prepareStatement(sqlEliminarAlumno);
+            statementEliminarAlumno.setInt(1, idAlumno);
+            statementEliminarAlumno.executeUpdate();
+            statementEliminarAlumno.close();
+
+            conexion.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Alumno obtenerAlumnoPorId(int id) {
         Alumno alumno = null;
         try {

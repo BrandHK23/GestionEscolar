@@ -56,8 +56,9 @@ public class AlumnoOptionsForm extends JFrame {
         btnRegistrarAlumno.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setSize(430,400);
+                setSize(400, 350);
                 setLocationRelativeTo(null);
+                setResizable(false);
                 cardLayoutManager.showPanel("RegistrarAlumno");
 
             }

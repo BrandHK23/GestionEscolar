@@ -142,6 +142,24 @@ public class ConsultarAlumnoPanel {
             actualizarTablaAlumnos(alumnos);
         });
 
+        btnEliminarAlumno.addActionListener(e -> {
+            int selectedRow = tblAlumnos.getSelectedRow();
+
+            if(selectedRow != -1){
+                int selectedId = (int) tblAlumnos.getValueAt(selectedRow, 0);
+                alumnoSeleccionado = alumnoDao.obtenerAlumnoPorId(selectedId);
+
+                if(alumnoSeleccionado != null){
+                    int confirmacion = JOptionPane.showConfirmDialog(null,"¿Está seguro de eliminar al alumno '" + alumnoSeleccionado.getNombreCompleto() + "' de la base de datos?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+                    if(confirmacion == JOptionPane.YES_OPTION){
+                        alumnoDao.eliminarAlumno(selectedId);
+                    }else{
+
+                    }
+                }
+            }
+        });
+
         // Configurar acciones de los botones de exportación
         btnExportar.addActionListener(e -> {
             String exportar = cmbExportar.getSelectedItem().toString();
@@ -159,7 +177,6 @@ public class ConsultarAlumnoPanel {
                 return;
             }
         });
-
 
         // Configurar acción del botón Agregar Documento
         btnAgregar.addActionListener(e -> {

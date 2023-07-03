@@ -4,49 +4,70 @@ package org.ge.br.view.Alumno;
 import org.ge.br.dao.AlumnoDao;
 import org.ge.br.model.Alumno;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import javax.swing.*;
 
 public class RegistrarAlumnoPanel {
     private static JPanel panel;
     private JComboBox<String> cmbEspecialidad;
 
     public RegistrarAlumnoPanel() {
-
-        
-        panel = new JPanel();
-        panel.setLayout(new GridLayout(9, 2, 10, 10));
+        panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
 
         // Agregar campos de entrada de datos
         JLabel lblNombre = new JLabel("Nombre:");
-        JTextField txtNombre = new JTextField();
+        JTextField txtNombre = new JTextField(20);
         JLabel lblApellido = new JLabel("Apellido:");
-        JTextField txtApellido = new JTextField();
+        JTextField txtApellido = new JTextField(20);
         JLabel lblEmail = new JLabel("Email:");
-        JTextField txtEmail = new JTextField();
+        JTextField txtEmail = new JTextField(20);
         JLabel lblTelefono = new JLabel("Teléfono:");
-        JTextField txtTelefono = new JTextField();
+        JTextField txtTelefono = new JTextField(20);
         JLabel lblEspecialidad = new JLabel("Especialidad:");
         cmbEspecialidad = new JComboBox<>(new String[]{"Endodoncia", "Ortodoncia", "Ambas"});
 
-        // Agregar componentes al panel
-        panel.add(lblNombre);
-        panel.add(txtNombre);
-        panel.add(lblApellido);
-        panel.add(txtApellido);
-        panel.add(lblEmail);
-        panel.add(txtEmail);
-        panel.add(lblTelefono);
-        panel.add(txtTelefono);
-        panel.add(lblEspecialidad);
-        panel.add(cmbEspecialidad);
+        // Agregar componentes al panel usando GridBagLayout
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(lblNombre, gbc);
+        gbc.gridx = 1;
+        panel.add(txtNombre, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panel.add(lblApellido, gbc);
+        gbc.gridx = 1;
+        panel.add(txtApellido, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        panel.add(lblEmail, gbc);
+        gbc.gridx = 1;
+        panel.add(txtEmail, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(lblTelefono, gbc);
+        gbc.gridx = 1;
+        panel.add(txtTelefono, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        panel.add(lblEspecialidad, gbc);
+        gbc.gridx = 1;
+        panel.add(cmbEspecialidad, gbc);
 
         // Agregar botón para el registro
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
         JButton btnRegistrar = new JButton("Registrar");
-        panel.add(btnRegistrar);
+        panel.add(btnRegistrar, gbc);
 
         // Configurar acción del botón Registrar
         btnRegistrar.addActionListener(new ActionListener() {
