@@ -3,9 +3,13 @@ package org.ge.br.view;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
+import java.util.prefs.Preferences;
 
 
 public class Login extends JFrame{
+
+    private static final String PRIMERA_EJECUCION = "primera_ejecucion";
+
     private JPanel MainLogin = new JPanel();
     private JButton btnLogin;
     private JTextField txtFieldUser;
@@ -28,7 +32,7 @@ public class Login extends JFrame{
         setResizable(false);
 
         // Crear y configurar los componentes
-        lblUser = new JLabel("User");
+        lblUser = new JLabel("Usuario");
         lblUser.setBounds(45, 40, 100, 30);
         add(lblUser);
 
@@ -36,7 +40,7 @@ public class Login extends JFrame{
         txtFieldUser.setBounds(125, 40, 150, 30);
         add(txtFieldUser);
 
-        lblPassword = new JLabel("Password");
+        lblPassword = new JLabel("Contraseña");
         lblPassword.setBounds(45, 80, 100, 30);
         add(lblPassword);
 
